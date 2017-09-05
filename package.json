@@ -1,0 +1,19 @@
+{
+  "name": "elmdummychat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeanFulbert/ElmDummyChat.git"
+  },
+  "author": "Christophe Moinard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeanFulbert/ElmDummyChat/issues"
+  },
+  "homepage": "https://github.com/JeanFulbert/ElmDummyChat#readme"
+}
