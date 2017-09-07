@@ -8,7 +8,7 @@ import View exposing (view)
 
 
 init : ( Model, Cmd Msg )
-init = ( "Hello", Cmd.none )
+init = ( 0, Cmd.none )
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

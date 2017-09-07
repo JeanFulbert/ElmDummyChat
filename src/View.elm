@@ -1,10 +1,14 @@
 module View exposing (..)
 
-import Html exposing (Html, div, text)
-import Messages exposing (Msg)
+import Html exposing (Html, div, text, button)
+import Html.Events exposing (onClick)
+import Messages exposing (Msg(..))
 import Models exposing (Model)
 
 view : Model -> Html Msg
 view model =
     div []
-        [ text model ]
+        [ button [ onClick Decrement ] [ text "-" ]
+        , text (toString(model))
+        , button [ onClick Increment ] [ text "+" ]
+        ]

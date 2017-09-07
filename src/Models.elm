@@ -1,3 +1,3 @@
 module Models exposing (..)
 
-type alias Model = String
+type alias Model = Int

@@ -1,3 +1,5 @@
 module Messages exposing (..)
 
-type Msg = NoOp
+type Msg
+    = Increment
+    | Decrement
