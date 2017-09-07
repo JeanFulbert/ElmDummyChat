@@ -11,7 +11,7 @@ users = [ "Alice", "Bob" ]
 
 createInitialUser : String -> User
 createInitialUser name =
-    User name
+    User name []
 
 init : ( Model, Cmd Msg )
 init = ( users |> List.map createInitialUser

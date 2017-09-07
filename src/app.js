@@ -8148,9 +8148,16 @@ var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$styl
 var _user$project$Messages$Decrement = {ctor: 'Decrement'};
 var _user$project$Messages$Increment = {ctor: 'Increment'};
 
-var _user$project$Models$User = function (a) {
-	return {name: a};
-};
+var _user$project$Models$Message = F2(
+	function (a, b) {
+		return {content: a, source: b};
+	});
+var _user$project$Models$User = F2(
+	function (a, b) {
+		return {name: a, messages: b};
+	});
+var _user$project$Models$Other = {ctor: 'Other'};
+var _user$project$Models$Self = {ctor: 'Self'};
 
 var _user$project$Views_ChatBox$chatBox = function (user) {
 	return A2(
@@ -8226,7 +8233,10 @@ var _user$project$Views_MainView$view = function (model) {
 };
 
 var _user$project$Main$createInitialUser = function (name) {
-	return _user$project$Models$User(name);
+	return A2(
+		_user$project$Models$User,
+		name,
+		{ctor: '[]'});
 };
 var _user$project$Main$users = {
 	ctor: '::',
