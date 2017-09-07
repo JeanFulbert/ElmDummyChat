@@ -8,17 +8,11 @@ import Models exposing (..)
 
 chatBox : User -> Html Msg
 chatBox user =
-    div [ class "main"]
-        [ section [ class "chat"]
-                  [ h2 [] [ text user.name ]
-                  , ol [ class "history" ] []
-                  , div [ class "sendingBlock" ]
-                        [ textarea [] []
-                        , button [] [ text "OK" ]
-                        ]
-                  ]
-        ]
-        -- [ button [ onClick Decrement ] [ text "-" ]
-        -- , text (toString(model))
-        -- , button [ onClick Increment ] [ text "+" ]
-        -- ]
+    section [ class "chat"]
+            [ h2 [] [ text user.name ]
+            , ol [ class "history" ] []
+            , div [ class "sendingBlock" ]
+                [ textarea [] []
+                , button [] [ text "OK" ]
+                ]
+            ]

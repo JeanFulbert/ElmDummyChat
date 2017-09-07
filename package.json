@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "live": "elm-live src/Main.elm --output=src/app.js --open",
     "test": "test"
   },
   "repository": {
