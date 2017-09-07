@@ -2,23 +2,26 @@ module Main exposing (..)
 
 import Html exposing (program)
 import Messages exposing (Msg)
-import Models exposing (Model)
-import Update exposing (update)
-import View exposing (view)
+import Models exposing (..)
+-- import Update exposing (update)
+import Views.MainView exposing (view)
 
+users : List String
+users = [ "Alice", "Bob" ]
+
+createInitialUser : String -> User
+createInitialUser name =
+    User name
 
 init : ( Model, Cmd Msg )
-init = ( 0, Cmd.none )
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
+init = ( users |> List.map createInitialUser
+       , Cmd.none )
 
 main : Program Never Model Msg
 main =
     program
         { init = init
         , view = view
-        , update = update
-        , subscriptions = subscriptions
+        , update = \msg model -> (model, Cmd.none )
+        , subscriptions = \m -> Sub.none
         }

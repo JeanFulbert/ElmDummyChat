@@ -1,0 +1,78 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    background: lightgray;
+    
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 10%;
+    bottom: 10%;
+}
+
+h2 {
+    margin: 0px;
+}
+
+.chat {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.history {
+    margin: 0px;
+    overflow-x:hidden;
+    overflow-y:auto;
+    padding: 5px;
+    list-style: none;
+    background: #E8DFD6;
+    flex: 1;
+}
+
+/* Message boxes */
+.history li {
+    clear: both;
+}
+
+.history li span {
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+    max-width: 90%;
+    margin-bottom: 7px;
+    position: relative;
+    display: inline-block;
+}
+
+.history li span.right {
+    background: #DCF8C7;
+    float: right;
+    
+    box-shadow: 1px 1px 0px #D4D4D4;
+}
+
+.history li span.left {
+    background: #F7F7F7;
+    float: left;
+    
+    box-shadow: -1px 1px 0px #D4D4D4;
+}
+
+/* Sending block */
+.sendingBlock {
+    display: flex;
+    margin-top: 5px;
+}
+
+button {
+    height: 35px;
+    margin-left: 5px;
+}
+
+textarea {
+    border-style: none;
+    resize: none;
+    height: 35px;
+    width: 100%;
+}
