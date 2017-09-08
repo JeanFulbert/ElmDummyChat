@@ -1,5 +1,7 @@
 module Messages exposing (..)
 
+import Models exposing (..)
+
 type Msg
-    = Increment
-    | Decrement
+    = PendingTextChanged String User
+    | SendPending User
