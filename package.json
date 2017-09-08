@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "live": "elm-live src/Main.elm --output=src/app.js --open",
+    "live": "elm-live ./src/Main.elm --dir=public --output=app.js --open --debug",
+    "make": "elm-make ./src/Main.elm --output ./public/app.js",
     "test": "test"
   },
   "repository": {
