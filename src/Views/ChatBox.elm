@@ -6,6 +6,17 @@ import Html.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Models exposing (..)
 
+messageBox : Message -> Html Msg
+messageBox message =
+    let spanClass =
+        case message.source of
+            Self -> "left"
+            Other -> "right"
+    in  li  []
+            [ span [ class spanClass ] 
+                   [ text message.content ]
+            ]
+
 sendingBlock : User -> Html Msg
 sendingBlock user =
     div [ class "sendingBlock" ]
@@ -17,6 +28,9 @@ chatBox : User -> Html Msg
 chatBox user =
     section [ class "chat"]
             [ h2 [] [ text user.name ]
-            , ol [ class "history" ] []
+            , ol [ class "history" ] 
+                 ( user.messages
+                   |> List.map messageBox
+                 )
             , sendingBlock user
             ]

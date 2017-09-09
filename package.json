@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "live": "elm-live ./src/Main.elm --dir=public --output=app.js --open --debug",
+    "live": "elm-live ./src/Main.elm --dir=public --output=./public/app.js --open --debug",
     "make": "elm-make ./src/Main.elm --output ./public/app.js",
     "test": "test"
   },
