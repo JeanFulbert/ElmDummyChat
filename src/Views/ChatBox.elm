@@ -1,8 +1,8 @@
 module Views.ChatBox exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Messages exposing (Msg(..))
 import Models exposing (..)
 
@@ -20,7 +20,9 @@ messageBox message =
 sendingBlock : User -> Html Msg
 sendingBlock user =
     div [ class "sendingBlock" ]
-        [ textarea [] []
+        [ textarea [ onInput (PendingTextChanged user)
+                   , value user.pendingText ]
+                   []
         , button [ onClick (SendPending user) ] [ text "OK" ]
         ]
 

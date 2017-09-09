@@ -3,5 +3,5 @@ module Messages exposing (..)
 import Models exposing (..)
 
 type Msg
-    = PendingTextChanged String User
+    = PendingTextChanged User String
     | SendPending User

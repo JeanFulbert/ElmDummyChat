@@ -6,7 +6,16 @@ import Models exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        PendingTextChanged text user -> (model, Cmd.none)
+        PendingTextChanged user text ->
+            let newModel =
+                    model
+                    |> List.map (\u -> 
+                        if u == user
+                        then { u | pendingText = text }
+                        else u)
+            in (newModel, Cmd.none)
+
+
         SendPending user ->
             let
                 buildNewMessage u =
@@ -14,14 +23,14 @@ update msg model =
                         if u == user
                         then Self
                         else Other
-                    in Message "toto" source
+                    in Message user.pendingText source
                 
-                buildNewMessages u =
+                appendNewMessage u =
                     (buildNewMessage u)::u.messages
                     |> List.reverse
 
                 newModel =
                     model
-                    |> List.map (\u -> { u | messages = buildNewMessages u })
+                    |> List.map (\u -> { u | pendingText = "", messages = appendNewMessage u })
             in
                 (newModel, Cmd.none)

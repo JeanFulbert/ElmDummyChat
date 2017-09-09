@@ -11,6 +11,7 @@ type alias Message =
     
 type alias User =
     { name: String
+    , pendingText: String
     , messages: List Message
     }
 
