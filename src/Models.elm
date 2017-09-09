@@ -15,4 +15,7 @@ type alias User =
     , messages: List Message
     }
 
-type alias Model = List User
+type alias Model =
+    { users: List User
+    , isShiftDown: Bool
+    }

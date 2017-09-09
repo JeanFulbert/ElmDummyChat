@@ -2,19 +2,38 @@ module Update exposing (..)
 
 import Messages exposing (Msg(..))
 import Models exposing (..)
+import Task
+import Dom.Scroll exposing (..)
+
+enterKey : Int
+enterKey = 13
+
+updateUser : (User -> User) -> User -> List User -> List User
+updateUser modifyUser user users =
+    users
+    |> List.map (\u -> 
+        if u == user
+        then modifyUser u
+        else u)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        PendingTextChanged user text ->
-            let newModel =
-                    model
-                    |> List.map (\u -> 
-                        if u == user
-                        then { u | pendingText = text }
-                        else u)
-            in (newModel, Cmd.none)
+        NoMessage -> model ! []
 
+        PendingTextKeyDown user key ->
+            if key == enterKey
+            then update (SendPending user) model
+            else (model, Cmd.none)
+
+        PendingTextChanged user text ->
+            let newUsers =
+                    updateUser
+                        (\u -> { u | pendingText = text })
+                        user
+                        model.users
+                newModel = { model | users = newUsers }
+            in (newModel, Cmd.none)
 
         SendPending user ->
             let
@@ -26,11 +45,13 @@ update msg model =
                     in Message user.pendingText source
                 
                 appendNewMessage u =
-                    (buildNewMessage u)::u.messages
-                    |> List.reverse
+                    u.messages ++ [(buildNewMessage u)]
 
-                newModel =
-                    model
+                newUsers =
+                    model.users
                     |> List.map (\u -> { u | pendingText = "", messages = appendNewMessage u })
+                
+                newModel = { model | users = newUsers }
             in
                 (newModel, Cmd.none)
+                -- , Task.attempt (always NoMessage) <| toBottom "history")
