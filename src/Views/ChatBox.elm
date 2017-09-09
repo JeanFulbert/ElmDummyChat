@@ -6,11 +6,19 @@ import Html.Events exposing (..)
 import Messages exposing (Msg(..))
 import Models exposing (..)
 import Json.Decode as Json
+import Regex exposing (..)
 
 -- https://stackoverflow.com/questions/40113213/how-to-handle-enter-key-press-in-input-field
 onKeyDown : (Int -> msg) -> Attribute msg
 onKeyDown tagger =
   on "keydown" (Json.map tagger keyCode)
+
+escapeString : String -> List (Html msg)
+escapeString s =
+    s
+    |> split All (regex "\n")
+    |> List.map text
+    |> List.intersperse (br [] [])
 
 messageBox : Message -> Html Msg
 messageBox message =
@@ -20,7 +28,7 @@ messageBox message =
             Other -> "right"
     in  li  []
             [ span [ class spanClass ] 
-                   [ text message.content ]
+                   ( message.content |> escapeString )
             ]
 
 sendingBlock : User -> Html Msg

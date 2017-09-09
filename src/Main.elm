@@ -1,15 +1,15 @@
 module Main exposing (..)
 
 import Html exposing (program)
-import Messages exposing (Msg)
+import Messages exposing (..)
 import Models exposing (..)
 import Update exposing (update)
 import Views.MainView exposing (view)
+import Keys
 import Keyboard exposing (..)
-import Char exposing (..)
 
 userNames : List String
-userNames = [ "Alice", "Bob" ]
+userNames = [ "Alice", "Bob", "Chris" ]
 
 createInitialUser : String -> User
 createInitialUser name =
@@ -23,8 +23,18 @@ initialModel =
 init : ( Model, Cmd Msg )
 init = ( initialModel, Cmd.none )
 
+notifyShiftChange : Bool -> Int -> Msg
+notifyShiftChange isShiftDown keyCode =
+    if keyCode == Keys.shift
+    then ShiftKeyDown isShiftDown
+    else NoMessage
+
 subscriptions : Model -> Sub Msg
-subscriptions model = Sub.none
+subscriptions model =
+    Sub.batch
+        [ Keyboard.downs <| notifyShiftChange True
+        , Keyboard.ups <| notifyShiftChange False
+        ]
 
 main : Program Never Model Msg
 main =

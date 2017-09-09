@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Messages exposing (Msg(..))
 import Models exposing (..)
+import Keys
 import Task
 import Dom.Scroll exposing (..)
 
@@ -21,8 +22,11 @@ update msg model =
     case msg of
         NoMessage -> model ! []
 
+        ShiftKeyDown isDown ->
+            ({ model | isShiftDown = isDown }, Cmd.none)
+
         PendingTextKeyDown user key ->
-            if key == enterKey
+            if key == Keys.enter && model.isShiftDown
             then update (SendPending user) model
             else (model, Cmd.none)
 
@@ -39,9 +43,9 @@ update msg model =
             let
                 buildNewMessage u =
                     let source =
-                        if u == user
-                        then Self
-                        else Other
+                            if u == user
+                            then Self
+                            else Other
                     in Message user.pendingText source
                 
                 appendNewMessage u =
