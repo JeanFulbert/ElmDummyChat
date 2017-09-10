@@ -18,6 +18,10 @@ setPendingText : String -> User -> User
 setPendingText newText user =
     { user | pendingText = newText }
 
+setMessages : List Message -> User -> User
+setMessages newMessages user =
+    { user | messages = newMessages }
+
 updateUserInModel : (User -> User) -> User -> Model -> Model
 updateUserInModel modifyUser user model =
     let newUsers =
@@ -25,6 +29,28 @@ updateUserInModel modifyUser user model =
         |> updateUser modifyUser user
     in
         { model | users = newUsers }
+
+updateAllUsersInModel : (User -> User) -> Model -> Model
+updateAllUsersInModel modifyUser model =
+    let newUsers =
+        model.users
+        |> List.map modifyUser
+    in
+        { model | users = newUsers }
+
+buildNewMessage : User -> User -> Message
+buildNewMessage user sender =
+    let
+        source =
+            if user == sender
+            then Self
+            else Other
+    in
+        Message sender.pendingText source
+        
+appendNewMessage : User -> User -> List Message           
+appendNewMessage user sender =
+    user.messages ++ [(buildNewMessage user sender)]
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -46,23 +72,21 @@ update msg model =
                 |> updateUserInModel (setPendingText text) user
             in (newModel, Cmd.none)
 
-        SendPending user ->
+        SendPending sender ->
             let
-                buildNewMessage u =
-                    let source =
-                            if u == user
-                            then Self
-                            else Other
-                    in Message user.pendingText source
-                
-                appendNewMessage u =
-                    u.messages ++ [(buildNewMessage u)]
-
                 newUsers =
                     model.users
-                    |> List.map (\u -> { u | pendingText = "", messages = appendNewMessage u })
+                    |> List.map (\u -> { u
+                        | pendingText = ""
+                        , messages = appendNewMessage u sender })
                 
                 newModel = { model | users = newUsers }
+
+                newModel2 =
+                    model
+                    |> updateUserInModel (setPendingText "") sender
+                    |> updateAllUsersInModel (\u -> 
+                        setMessages (appendNewMessage u sender) u)
             in
                 ( newModel
                 , newModel.users
