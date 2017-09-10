@@ -1,4 +1,6 @@
-module Models exposing (..)
+module Models exposing (
+    MessageSource(..), Message, User, Model,
+    initializeModel)
 
 type MessageSource
     = Self
@@ -20,3 +22,15 @@ type alias Model =
     { users: List User
     , isShiftDown: Bool
     }
+
+createInitialUser : Int -> String -> User
+createInitialUser id name =
+    let chatBoxId = "history" ++ (id |> toString)
+    in  User chatBoxId name "" []
+
+initializeModel : List String -> Model
+initializeModel userNames =
+    let users =
+            userNames
+            |> List.indexedMap createInitialUser
+    in  Model users False
