@@ -4,7 +4,7 @@ import Messages exposing (Msg(..))
 import Models exposing (..)
 import Keys
 import Task
-import Dom.Scroll exposing (..)
+import Dom.Scroll as Scroll
 
 enterKey : Int
 enterKey = 13
@@ -26,7 +26,7 @@ update msg model =
             ({ model | isShiftDown = isDown }, Cmd.none)
 
         PendingTextKeyDown user key ->
-            if key == Keys.enter && model.isShiftDown
+            if key == Keys.enter && not model.isShiftDown
             then update (SendPending user) model
             else (model, Cmd.none)
 
@@ -57,5 +57,9 @@ update msg model =
                 
                 newModel = { model | users = newUsers }
             in
-                (newModel, Cmd.none)
-                -- , Task.attempt (always NoMessage) <| toBottom "history")
+                ( newModel
+                , newModel.users
+                  |> List.map (\u -> Scroll.toBottom u.chatBoxId)
+                  |> Task.sequence
+                  |> Task.attempt (always NoMessage)
+                )

@@ -45,9 +45,7 @@ chatBox : User -> Html Msg
 chatBox user =
     section [ class "chat"]
             [ h2 [] [ text user.name ]
-            , ol [ class "history" ] 
-                 ( user.messages
-                   |> List.map messageBox
-                 )
+            , ol [ id user.chatBoxId, class "history" ] 
+                 ( user.messages |> List.map messageBox)
             , sendingBlock user
             ]

@@ -11,14 +11,15 @@ import Keyboard exposing (..)
 userNames : List String
 userNames = [ "Alice", "Bob", "Chris" ]
 
-createInitialUser : String -> User
-createInitialUser name =
-    User name "" []
+createInitialUser : Int -> String -> User
+createInitialUser id name =
+    let chatBoxId = "history" ++ (id |> toString)
+    in  User chatBoxId name "" []
 
 initialModel : Model
 initialModel =
-    let users = userNames |> List.map createInitialUser
-    in Model users False
+    let users = userNames |> List.indexedMap createInitialUser
+    in  Model users False
 
 init : ( Model, Cmd Msg )
 init = ( initialModel, Cmd.none )
