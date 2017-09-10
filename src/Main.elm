@@ -5,7 +5,6 @@ import Messages exposing (..)
 import Models exposing (..)
 import Updates.MainUpdate exposing (update)
 import Views.MainView exposing (view)
-import Subscriptions exposing (..)
 
 userNames : List String
 userNames = [ "Alice", "Bob", "Chris" ]
@@ -19,5 +18,5 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = \_ -> Sub.none
         }

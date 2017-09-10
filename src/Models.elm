@@ -20,8 +20,8 @@ type alias User =
 
 type alias Model =
     { users: List User
-    , isShiftDown: Bool
     }
+
 
 createInitialUser : Int -> String -> User
 createInitialUser id name =
@@ -33,4 +33,4 @@ initializeModel userNames =
     let users =
             userNames
             |> List.indexedMap createInitialUser
-    in  Model users False
+    in  Model users

@@ -4,7 +4,6 @@ import Messages exposing (Msg(..))
 import Models exposing (..)
 import Updates.UserSetters exposing (..)
 import Updates.UserUpdaters exposing (..)
-import Keys
 import Task
 import Dom.Scroll as Scroll
 
@@ -29,15 +28,7 @@ update msg model =
     case msg of
         NoMessage ->
             (model, Cmd.none)
-
-        ShiftKeyDown isDown ->
-            ({ model | isShiftDown = isDown }, Cmd.none)
-
-        PendingTextKeyDown sender key ->
-            if key == Keys.enter && not model.isShiftDown
-            then model |> sendPending sender
-            else (model, Cmd.none)
-
+            
         PendingTextChanged sender text ->
             let newModel = 
                 model
