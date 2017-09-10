@@ -1,4 +1,4 @@
-module Update exposing (..)
+module Updates.MainUpdate exposing (..)
 
 import Messages exposing (Msg(..))
 import Models exposing (..)

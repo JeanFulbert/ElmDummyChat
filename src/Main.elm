@@ -3,7 +3,7 @@ module Main exposing (..)
 import Html exposing (program)
 import Messages exposing (..)
 import Models exposing (..)
-import Update exposing (update)
+import Updates.MainUpdate exposing (update)
 import Views.MainView exposing (view)
 import Subscriptions exposing (..)
 
