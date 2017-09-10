@@ -8,6 +8,22 @@ import Keys
 import Task
 import Dom.Scroll as Scroll
 
+sendPending : User -> Model -> ( Model, Cmd Msg )
+sendPending sender model =
+    let newModel =
+            model
+            |> updateUserInModel (setPendingText "") sender
+            |> updateAllUsersInModel (setAppendedMessages sender)
+        
+        scrollAllHistoriesToBottom =
+            newModel.users
+            |> List.map (\u -> Scroll.toBottom u.chatBoxId)
+            |> Task.sequence
+            |> Task.attempt (always NoMessage)
+    in
+        ( newModel
+        , scrollAllHistoriesToBottom)
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -17,9 +33,9 @@ update msg model =
         ShiftKeyDown isDown ->
             ({ model | isShiftDown = isDown }, Cmd.none)
 
-        PendingTextKeyDown user key ->
+        PendingTextKeyDown sender key ->
             if key == Keys.enter && not model.isShiftDown
-            then update (SendPending user) model
+            then model |> sendPending sender
             else (model, Cmd.none)
 
         PendingTextChanged sender text ->
@@ -29,15 +45,5 @@ update msg model =
             in (newModel, Cmd.none)
 
         SendPending sender ->
-            let
-                newModel =
-                    model
-                    |> updateUserInModel (setPendingText "") sender
-                    |> updateAllUsersInModel (setAppendedMessages sender)
-            in
-                ( newModel
-                , newModel.users
-                  |> List.map (\u -> Scroll.toBottom u.chatBoxId)
-                  |> Task.sequence
-                  |> Task.attempt (always NoMessage)
-                )
+            model
+            |> sendPending sender
