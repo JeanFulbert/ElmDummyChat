@@ -6,9 +6,6 @@ import Keys
 import Task
 import Dom.Scroll as Scroll
 
-enterKey : Int
-enterKey = 13
-
 updateUser : (User -> User) -> User -> List User -> List User
 updateUser modifyUser user users =
     users
@@ -17,10 +14,23 @@ updateUser modifyUser user users =
         then modifyUser u
         else u)
 
+setPendingText : String -> User -> User
+setPendingText newText user =
+    { user | pendingText = newText }
+
+updateUserInModel : (User -> User) -> User -> Model -> Model
+updateUserInModel modifyUser user model =
+    let newUsers =
+        model.users
+        |> updateUser modifyUser user
+    in
+        { model | users = newUsers }
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoMessage -> model ! []
+        NoMessage ->
+            (model, Cmd.none)
 
         ShiftKeyDown isDown ->
             ({ model | isShiftDown = isDown }, Cmd.none)
@@ -31,12 +41,9 @@ update msg model =
             else (model, Cmd.none)
 
         PendingTextChanged user text ->
-            let newUsers =
-                    updateUser
-                        (\u -> { u | pendingText = text })
-                        user
-                        model.users
-                newModel = { model | users = newUsers }
+            let newModel = 
+                model
+                |> updateUserInModel (setPendingText text) user
             in (newModel, Cmd.none)
 
         SendPending user ->

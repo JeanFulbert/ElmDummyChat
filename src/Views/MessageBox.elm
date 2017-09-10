@@ -16,8 +16,8 @@ escapeString s =
 spanClass : MessageSource -> String
 spanClass source =
     case source of
-        Self -> "left"
-        Other -> "right"
+        Self -> "right"
+        Other -> "left"
 
 messageBox : Message -> Html Msg
 messageBox message =
