@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "npm install --global elm elm-live",
     "live": "elm-live ./src/Main.elm --dir=public --output=./public/app.js --open --debug",
-    "make": "elm-make ./src/Main.elm --output ./public/app.js",
-    "test": "test"
+    "make": "elm-make ./src/Main.elm --output ./public/app.js"
   },
   "repository": {
     "type": "git",
